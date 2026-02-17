@@ -8,8 +8,6 @@ CORS(app)
 TOTAL_STUDENTS = 64
 STUDENT_FILE = "students.xlsx"
 
-def attendance():
-
 @app.route("/attendance", methods=["POST"])
 def attendance():
     data = request.json
@@ -98,16 +96,6 @@ def attendance():
     result += "\nOD\n"
     for i, o in enumerate(ods, 1):
         result += f"{i}. {o}\n"
-    result += "\nThank you sir"
-
-    return jsonify({"output": result})
-    for i, a in enumerate(absentees, 1):
-        result += f"{i}. {a}\n"
-
-    result += "\nOD\n"
-    for i, o in enumerate(ods, 1):
-        result += f"{i}. {o}\n"
-
     result += "\nThank you sir"
 
     return jsonify({"output": result})
