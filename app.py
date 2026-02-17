@@ -8,14 +8,16 @@ CORS(app)
 TOTAL_STUDENTS = 64
 STUDENT_FILE = "students.xlsx"
 
+def attendance():
 
+@app.route("/attendance", methods=["POST"])
 def attendance():
     data = request.json
 
-    date = data.get("Date")
-    hour = data.get("Hour")
-    absent = data.get("Absent", "")
-    od = data.get("OD", "")
+    date = data.get("date")
+    hour = data.get("hour")
+    absent = data.get("absent", "")
+    od = data.get("od", "")
 
     if not date or not hour:
         return jsonify({"error": "Date and Hour are required"}), 400
