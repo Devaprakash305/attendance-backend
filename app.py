@@ -1,12 +1,27 @@
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import pandas as pd
+import openpyxl
 
 app = Flask(__name__)
 CORS(app)
 
 TOTAL_STUDENTS = 64
 STUDENT_FILE = "students.xlsx"
+
+# Load student data from students.xlsx
+try:
+    df = pd.read_excel(STUDENT_FILE)
+    roll_to_name = {}
+    for _, row in df.iterrows():
+        # Assuming the Excel has columns for roll number and name
+        # Adjust column names based on your actual Excel structure
+        roll_col = 'Roll No' if 'Roll No' in df.columns else df.columns[0]
+        name_col = 'Name' if 'Name' in df.columns else df.columns[1]
+        roll_to_name[int(row[roll_col])] = row[name_col]
+except Exception as e:
+    print(f"Error loading student data: {e}")
+    roll_to_name = {}
 
 @app.route("/attendance", methods=["POST"])
 def attendance():
@@ -49,7 +64,6 @@ def attendance():
 
     # --- Attendance.xlsx update logic ---
     ATTENDANCE_FILE = "Attendance.xlsx"
-    import openpyxl
     from openpyxl.utils import get_column_letter
 
     wb = openpyxl.load_workbook(ATTENDANCE_FILE)
