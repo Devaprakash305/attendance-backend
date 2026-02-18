@@ -27,8 +27,9 @@ def get_roll_to_name(df):
     return dict(zip(df[roll_col], df[name_col]))
 
 
-@app.route("/attendance", methods=["POST"])
 
+@app.route("/attendance", methods=["POST"])
+def attendance():
     data = request.json
     date = data.get("date")
     hour = data.get("hour")
